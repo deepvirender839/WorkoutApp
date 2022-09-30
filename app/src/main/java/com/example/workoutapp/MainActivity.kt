@@ -1,21 +1,27 @@
 package com.example.workoutapp
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.FrameLayout
 import android.widget.Toast
+import com.example.workoutapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private var binding:ActivityMainBinding?=null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
-        val fLStartButton: FrameLayout = findViewById(R.id.flStart)
-        fLStartButton.setOnClickListener {
-            Toast.makeText(
-                this@MainActivity,
-                "Here we will start the exercise.",
-                Toast.LENGTH_SHORT
-            ).show()
+        binding=ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding?.root)
+        binding?.flStart?.setOnClickListener{
+            val intent = Intent(this,ExerciseActivity::class.java)
+            startActivity(intent)
         }
+
+    }
+    override fun onDestroy() {
+        super.onDestroy()
+        //Todo 4: TO avoid memory leak we unassign the binding once the activity is destroyed
+        binding = null
     }
 }
